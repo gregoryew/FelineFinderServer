@@ -66,8 +66,8 @@ function unfavorite(data) {
     });
 }
 
-app.listen(3000, () => {
-    console.log('Server is running at port 3000');
+app.listen(8080, () => {
+    console.log('Server is running at port 8080');
 });
 
 app.post("/addUser",(req,res) => {
