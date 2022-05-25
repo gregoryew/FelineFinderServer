@@ -66,7 +66,7 @@ function unfavorite(data) {
     });
 }
 
-app.listen(8080, () => {
+app.listen(3000, () => {
     console.log('Server is running at port 8080');
 });
 
