@@ -79,8 +79,10 @@ function unfavorite(data) {
     });
 }
 
-app.listen(8080, '0.0.0.0', () => {
-    console.log('Server is running at port 8080');
+let PORT = process.env.PORT || 3000;
+let IP = process.env.IP || '127.0.0.1';
+app.listen(PORT, IP, () => {
+    console.log('Server is running at port ' + PORT + ' and IP = ' + IP);
 });
 
 /*
@@ -99,7 +101,7 @@ app.post("/addUser",(req,res) => {
     //});
 });
 
-app.post("/isFavorite", (req, res) => {
+app.post("/isFavorite/", (req, res) => {
     //pool.getConnection(async (err, connection) => {
         //if(err) throw err;
         console.log("GOT HERE isFavorite");
