@@ -28,17 +28,6 @@ const pool = mysql.createPool({
 });
 */
 
-const conn = mysql.createConnection({
-    host: 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
-    port: '25060',
-    user: 'felinefinder',
-    password: 'AVNS_auc4rgZi5-p28fr',
-    database: 'defaultdb',
-    ssl: {
-        ca: fs.readFileSync('ca-certificate.crt'),
-    }
-});
-
 function addUser(data) {
     let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
     let query = mysql.format(insertQuery,["Users","userid","username","password",data.userid,data.username,data.password]);
@@ -104,14 +93,28 @@ app.post("/addUser",(req,res) => {
 app.post("/isFavorite", (req, res) => {
     //pool.getConnection(async (err, connection) => {
         //if(err) throw err;
-        console.log("GOT HERE isFavorite");
+
+        console.log("isFavorite Start");
+
+        const conn = mysql.createConnection({
+            host: 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+            port: '25060',
+            user: 'felinefinder',
+            password: 'AVNS_auc4rgZi5-p28fr',
+            database: 'defaultdb',
+            ssl: {
+                ca: fs.readFileSync('ca-certificate.crt'),
+            }
+        });
+
+        console.log("isFavorite logged on to db");
 
         let selectQuery = 'SELECT COUNT(*) c FROM Favorites WHERE userID = ? AND petID = ?';
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
         conn.query(query,(err, response, fields) => {
             if(err) {
-                console.error(err);
-                res.error("Error querying database.");
+                console.log(err);
+                res.status(500).send("Error querying database.");
             }
             // rows added
             console.log("isFavorite");
@@ -123,7 +126,9 @@ app.post("/isFavorite", (req, res) => {
                 res.status(200).json({IsFavorite: false});
             }
         //});
-    })});
+    });
+    conn.end();
+});
 
 app.post("/favorite", (req, res) => {
     //pool.getConnection((err, connection) => {
@@ -150,5 +155,5 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("HELLO").status(200);
+    res.status(200).send("HELLO");
 });
