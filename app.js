@@ -79,14 +79,15 @@ function unfavorite(data) {
     });
 }
 
-/*
 app.listen(8080, '0.0.0.0', () => {
     console.log('Server is running at port 8080');
 });
-*/
+
+/*
 app.listen(3000, () => {
     console.log('Server is running at port 3000');
 });
+*/
 
 app.post("/addUser",(req,res) => {
     //pool.getConnection((err, connection) => {
