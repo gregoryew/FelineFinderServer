@@ -32,10 +32,10 @@ const pool = mysql.createPool({
     host: 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
     port: 25060,
     user: 'felinefinder',
-    password: 'AVNS_p8F_8kapi_t8wHn',
+    password: 'AVNS_zFnk2WPPkVkAn_Q',
     database: 'defaultdb'
 });
-
+  
 function addUser(data) {
     let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
     let query = mysql.format(insertQuery,["Users","userid","username","password",data.userid,data.username,data.password]);
@@ -77,7 +77,7 @@ function unfavorite(data) {
 }
 
 app.listen(8080, '0.0.0.0', () => {
-    console.log('Server is running at port 3000');
+    console.log('Server is running at port 8080');
 });
 
 app.post("/addUser",(req,res) => {
