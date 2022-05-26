@@ -12,7 +12,7 @@ const { fstat } = require("fs");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.use(express.json());
 /*
 const pool = mysql.createPool({
   connectionLimit : 75,
@@ -101,7 +101,7 @@ app.post("/addUser",(req,res) => {
     //});
 });
 
-app.post("/isFavorite/", (req, res) => {
+app.post("/isFavorite", (req, res) => {
     //pool.getConnection(async (err, connection) => {
         //if(err) throw err;
         console.log("GOT HERE isFavorite");
