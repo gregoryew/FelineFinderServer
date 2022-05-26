@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const querystring = require('querystring');
-var fs = require('fs');
 const router = express.Router();
 const app = express();
 app.use("/", router);
@@ -18,13 +17,11 @@ app.post("/isFavorite", (req, res) => {
         console.debug("isFavorite Start");
 
         const conn = mysql.createConnection({
-            host: process.env.DBHOST,
-            port: process.env.DBPORT,
-            user: process.env.DBUSER,
-            database: process.env.DBNAME,
-            ssl: {
-                ca: fs.readFileSync('ca-certificate.crt'),
-            }
+            host: process.env.DBHOST || 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+            port: process.env.DBPORT || '25060',
+            user: process.env.DBUSER || 'felinefinder',
+            database: process.env.DBNAME || 'defaultdb',
+            password: process.env.DBPASSWORD || 'AVNS_lc_DS148AEozf_t'
         });
 
         console.log("isFavorite logged on to db");
@@ -35,6 +32,7 @@ app.post("/isFavorite", (req, res) => {
             if(err) {
                 console.log(err);
                 res.status(500).send("Error querying database.");
+                return;
             }
             // rows added
             console.log("isFavorite");
@@ -48,8 +46,6 @@ app.post("/isFavorite", (req, res) => {
     });
     } catch (err) {
         next(err);
-    } finally {
-        conn.end();
     }
 });
 
