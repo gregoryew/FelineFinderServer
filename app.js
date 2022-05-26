@@ -148,3 +148,7 @@ app.post("/unfavorite", (req, res) => {
         res.sendStatus(200);
     //});
 });
+
+app.get("/", (req, res) => {
+    res.send("HELLO").status(200);
+});
