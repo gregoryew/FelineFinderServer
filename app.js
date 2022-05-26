@@ -6,10 +6,8 @@ const router = express.Router();
 const app = express();
 app.use("/", router);
 
-
 const mysql = require('mysql');
-const { fstat } = require("fs");
-const { nextTick } = require("process");
+const fs = require('fs');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
