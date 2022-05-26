@@ -28,18 +28,21 @@ const pool = mysql.createPool({
 });
 */
 
-const pool = mysql.createPool({
+const conn = mysql.createConnection({
     host: 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
-    port: 25060,
+    port: '25060',
     user: 'felinefinder',
-    password: 'AVNS_zFnk2WPPkVkAn_Q',
-    database: 'defaultdb'
+    password: 'AVNS_auc4rgZi5-p28fr',
+    database: 'defaultdb',
+    ssl: {
+        ca: fs.readFileSync('ca-certificate.crt'),
+    }
 });
-  
+
 function addUser(data) {
     let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
     let query = mysql.format(insertQuery,["Users","userid","username","password",data.userid,data.username,data.password]);
-    pool.query(query,(err, response) => {
+    conn.query(query,(err, response) => {
         if(err) {
             console.error(err);
             return;
@@ -53,7 +56,7 @@ function addUser(data) {
 function favorite(data) {
     let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
     let query = mysql.format(insertQuery,["Favorites","userid","petid",data.userid,data.petid]);
-    pool.query(query,(err, response) => {
+    conn.query(query,(err, response) => {
         if(err) {
             console.error(err);
             return;
@@ -67,7 +70,7 @@ function favorite(data) {
 function unfavorite(data) {
     let deleteQuery = 'DELETE FROM ?? WHERE userid = ? AND petid = ?';
     let query = mysql.format(deleteQuery,["Favorites",data.userid,data.petid]);
-    pool.query(query,(err, response) => {
+    conn.query(query,(err, response) => {
         if(err) {
             console.error(err);
             return;
@@ -76,32 +79,33 @@ function unfavorite(data) {
     });
 }
 
+/*
 app.listen(8080, '0.0.0.0', () => {
     console.log('Server is running at port 8080');
 });
+*/
+app.listen(3000, () => {
+    console.log('Server is running at port 3000');
+});
 
 app.post("/addUser",(req,res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err;
+    //pool.getConnection((err, connection) => {
+        //if(err) throw err;
         console.log("GOT HERE");
         console.log(req.body);
         addUser(req.body);
         res.sendStatus(200);
-    });
+    //});
 });
 
 app.post("/isFavorite", (req, res) => {
-    pool.getConnection(async (err, connection) => {
-        if(err) throw err;
+    //pool.getConnection(async (err, connection) => {
+        //if(err) throw err;
         console.log("GOT HERE isFavorite");
-        
-        var params = new URLSearchParams(req.params);
-
-        console.log("PARAMS=" + params);
 
         let selectQuery = 'SELECT COUNT(*) c FROM Favorites WHERE userID = ? AND petID = ?';
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
-        pool.query(query,(err, response, fields) => {
+        conn.query(query,(err, response, fields) => {
             if(err) {
                 console.error(err);
                 return;
@@ -115,29 +119,29 @@ app.post("/isFavorite", (req, res) => {
             } else {
                 return res.send({IsFavorite: false});
             }
-        });
+        //});
     })});
 
 app.post("/favorite", (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err;
+    //pool.getConnection((err, connection) => {
+        //if(err) throw err;
         console.log("GOT HERE");
         console.log(req.body);
 
         favorite(req.body);
 
         res.sendStatus(200);
-    });
+    //});
 });
 
 app.post("/unfavorite", (req, res) => {
-    pool.getConnection((err, connection) => {
-        if(err) throw err;
+    //pool.getConnection((err, connection) => {
+        //if(err) throw err;
         console.log("GOT HERE");
         console.log(req.body);
 
         unfavorite(req.body);
 
         res.sendStatus(200);
-    });
+    //});
 });
