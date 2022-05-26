@@ -116,9 +116,9 @@ app.post("/isFavorite", (req, res) => {
             console.log(response.length);
             if (response.length > 0) {
                 console.log(JSON.stringify(response));
-                res.send({IsFavorite: response[0].c >= 1});
+                res.status(200).json({IsFavorite: response[0].c >= 1});
             } else {
-                res.send({IsFavorite: false});
+                res.status(200).json({IsFavorite: false});
             }
         //});
     })});
