@@ -109,16 +109,16 @@ app.post("/isFavorite", (req, res) => {
         conn.query(query,(err, response, fields) => {
             if(err) {
                 console.error(err);
-                return;
+                res.error("Error querying database.");
             }
             // rows added
             console.log("isFavorite");
             console.log(response.length);
             if (response.length > 0) {
                 console.log(JSON.stringify(response));
-                return res.send({IsFavorite: response[0].c >= 1});
+                res.send({IsFavorite: response[0].c >= 1});
             } else {
-                return res.send({IsFavorite: false});
+                res.send({IsFavorite: false});
             }
         //});
     })});
