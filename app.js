@@ -13,6 +13,7 @@ const { fstat } = require("fs");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+/*
 const pool = mysql.createPool({
   connectionLimit : 75,
   host: 'SG-FelineFinderDB-6244-mysql-master.servers.mongodirector.com',
@@ -24,6 +25,15 @@ const pool = mysql.createPool({
       ca: fs.readFileSync('ca_cert.crt'),
       rejectUnauthorized: true
   }
+});
+*/
+
+const pool = mysql.createPool({
+    host: 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+    port: 25060,
+    user: 'felinefinder',
+    password: 'AVNS_p8F_8kapi_t8wHn',
+    database: 'defaultdb'
 });
 
 function addUser(data) {
