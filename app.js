@@ -29,17 +29,18 @@ app.post("/isFavorite", (req, res) => {
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
         conn.query(query,(err, response, fields) => {
             if(err) {
-                response.status(500);
+                response.status(500).end();
             }
             else
             {
                 if (response.length > 0) {
-                    response.status(200).json({IsFavorite: response[0].c >= 1});
+                    response.status(200).json({IsFavorite: response[0].c >= 1}).end();
                 } else {
-                    response.status(200).json({IsFavorite: false});
+                    response.status(200).json({IsFavorite: false}).end();
                 }
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
@@ -61,6 +62,7 @@ app.post("/addUser", (req, res) => {
                 response.sendStatus(200);
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
@@ -82,6 +84,7 @@ app.post("/favorite", (req, res) => {
                 response.sendStatus(200);
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
@@ -102,6 +105,7 @@ app.post("/unfavorite", (req, res) => {
                 res.sendStatus(200);
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
