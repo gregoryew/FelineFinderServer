@@ -29,6 +29,7 @@ app.post("/isFavorite", (req, res) => {
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
         conn.query(query,(err, response, fields) => {
             if(err) {
+                response.status(500).end();
                 throw new Error(err);
             }
             else
