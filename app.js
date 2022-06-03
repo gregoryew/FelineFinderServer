@@ -27,16 +27,16 @@ app.post("/isFavorite", (req, res) => {
 
         let selectQuery = 'SELECT COUNT(*) c FROM Favorites WHERE userID = ? AND petID = ?';
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
-        conn.query(query,(err, response, fields) => {
+        conn.query(query,(err, response) => {
             if(err) {
-                response.status(500).end();
+                response.status(500);
             }
             else
             {
                 if (response.length > 0) {
-                    response.status(200).json({IsFavorite: response[0].c >= 1}).end();
+                    response.status(200).json({IsFavorite: response[0].c >= 1});
                 } else {
-                    response.status(200).json({IsFavorite: false}).end();
+                    response.status(200).json({IsFavorite: false});
                 }
             }
         });
@@ -55,7 +55,6 @@ app.post("/addUser", (req, res) => {
         conn.query(query,(err, response) => {
             if(err) {
                 response.sendStatus(500);
-                throw new Error(err);
             }
             else
             {
@@ -77,7 +76,6 @@ app.post("/favorite", (req, res) => {
         conn.query(query,(err, response) => {
             if(err) {
                 response.sendStatus(500);
-                throw new Error(err);
             }
             else
             {
@@ -98,11 +96,11 @@ app.post("/unfavorite", (req, res) => {
         let query = mysql.format(deleteQuery,["Favorites", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                throw new Error(err);
+                response.sendStatus(500);
             }
             else
             {
-                res.sendStatus(200);
+                response.sendStatus(200);
             }
         });
         conn.end();
