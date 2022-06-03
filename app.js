@@ -73,6 +73,7 @@ app.post("/favorite", (req, res) => {
         let query = mysql.format(insertQuery,["Favorites", "userid", "petid", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
+                res.sendStatus(500);
                 throw new Error(err);
             }
             else
