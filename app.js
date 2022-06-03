@@ -34,9 +34,9 @@ app.post("/isFavorite", (req, res) => {
             else
             {
                 if (response.length > 0) {
-                    res.status(200).json({IsFavorite: response[0].c >= 1});
+                    res.sendStatus(200).json({IsFavorite: response[0].c >= 1});
                 } else {
-                    res.status(200).json({IsFavorite: false});
+                    res.sendStatus(200).json({IsFavorite: false});
                 }
             }
         });
@@ -107,7 +107,7 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.status(200).send("HELLO");
+    res.sendStatus(200).send("HELLO");
 });
 
 let PORT = process.env.PORT || 3000;
@@ -117,7 +117,7 @@ app.listen(PORT, IP, () => {
 });
 
 app.use(function(err, req, res) {
-    res.status(err.status || 500);
+    res.sendStatus(err.status || 500);
     // if you using view enggine
     res.render('error', {
         message: err.message,
