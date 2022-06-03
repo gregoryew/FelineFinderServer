@@ -29,15 +29,14 @@ app.post("/isFavorite", (req, res) => {
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
         conn.query(query,(err, response, fields) => {
             if(err) {
-                response.status(500).end();
-                throw new Error(err);
+                response.sendStatus(500);
             }
             else
             {
                 if (response.length > 0) {
-                    response.status(200).json({IsFavorite: response[0].c >= 1}).end();
+                    response.json({IsFavorite: response[0].c >= 1}).sendStatus(200);
                 } else {
-                    response.status(200).json({IsFavorite: false}).end();
+                    response.json({IsFavorite: false}).sendStatus(200);
                 }
             }
         });
