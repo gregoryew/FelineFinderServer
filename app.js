@@ -53,11 +53,12 @@ app.post("/addUser", (req, res) => {
         let query = mysql.format(insertQuery,["Users","userid","username","password",req.body.userid, req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
             if(err) {
+                response.sendStatus(500);
                 throw new Error(err);
             }
             else
             {
-                res.sendStatus(200);
+                response.sendStatus(200);
             }
         });
     } catch (err) {
@@ -73,12 +74,12 @@ app.post("/favorite", (req, res) => {
         let query = mysql.format(insertQuery,["Favorites", "userid", "petid", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                res.sendStatus(500);
+                response.sendStatus(500);
                 throw new Error(err);
             }
             else
             {
-                res.sendStatus(200);
+                response.sendStatus(200);
             }
         });
     } catch (err) {
