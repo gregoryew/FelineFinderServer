@@ -34,9 +34,9 @@ app.post("/isFavorite", (req, res) => {
             else
             {
                 if (response.length > 0) {
-                    response.status(200).json({IsFavorite: response[0].c >= 1});
+                    response.json({IsFavorite: response[0].c >= 1}).status(200);
                 } else {
-                    response.status(200).json({IsFavorite: false});
+                    response.json({IsFavorite: false}).status(200);
                 }
             }
         });
