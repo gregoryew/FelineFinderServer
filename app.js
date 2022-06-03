@@ -71,6 +71,14 @@ const pool = mysql.createPool({
 */
 
 function addUser(data) {
+    const conn = mysql.createConnection({
+        host: process.env.DBHOST || 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+        port: process.env.DBPORT || '25060',
+        user: process.env.DBUSER || 'felinefinder',
+        database: process.env.DBNAME || 'defaultdb',
+        password: process.env.DBPASSWORD || 'AVNS_lc_DS148AEozf_t'
+    });
+    
     let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
     let query = mysql.format(insertQuery,["Users","userid","username","password",data.userid,data.username,data.password]);
     conn.query(query,(err, response) => {
@@ -85,6 +93,14 @@ function addUser(data) {
 }
 
 function favorite(data) {
+    const conn = mysql.createConnection({
+        host: process.env.DBHOST || 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+        port: process.env.DBPORT || '25060',
+        user: process.env.DBUSER || 'felinefinder',
+        database: process.env.DBNAME || 'defaultdb',
+        password: process.env.DBPASSWORD || 'AVNS_lc_DS148AEozf_t'
+    });
+
     let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
     let query = mysql.format(insertQuery,["Favorites","userid","petid",data.userid,data.petid]);
     conn.query(query,(err, response) => {
@@ -99,6 +115,14 @@ function favorite(data) {
 }
 
 function unfavorite(data) {
+    const conn = mysql.createConnection({
+        host: process.env.DBHOST || 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+        port: process.env.DBPORT || '25060',
+        user: process.env.DBUSER || 'felinefinder',
+        database: process.env.DBNAME || 'defaultdb',
+        password: process.env.DBPASSWORD || 'AVNS_lc_DS148AEozf_t'
+    });
+
     let deleteQuery = 'DELETE FROM ?? WHERE userid = ? AND petid = ?';
     let query = mysql.format(deleteQuery,["Favorites",data.userid,data.petid]);
     conn.query(query,(err, response) => {
@@ -111,6 +135,14 @@ function unfavorite(data) {
 }
 
 app.post("/addUser",(req,res) => {
+    const conn = mysql.createConnection({
+        host: process.env.DBHOST || 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
+        port: process.env.DBPORT || '25060',
+        user: process.env.DBUSER || 'felinefinder',
+        database: process.env.DBNAME || 'defaultdb',
+        password: process.env.DBPASSWORD || 'AVNS_lc_DS148AEozf_t'
+    });
+
     //pool.getConnection((err, connection) => {
         //if(err) throw err;
         console.log("GOT HERE");
