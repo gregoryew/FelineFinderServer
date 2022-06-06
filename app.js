@@ -115,9 +115,11 @@ app.get("/", (req, res) => {
 
 let PORT = process.env.PORT || 3000;
 let IP = process.env.IP || '127.0.0.1';
-app.listen(PORT, IP, () => {
+const server = app.listen(PORT, IP, () => {
     console.log('Server is running at port ' + PORT + ' and IP = ' + IP);
 });
+
+server.timeout = 120000;
 
 app.use(function(err, req, res) {
     res.sendStatus(err.status || 500);
