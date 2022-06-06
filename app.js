@@ -40,7 +40,6 @@ app.post("/isFavorite", (req, res) => {
                 }
             }
         });
-        conn.end();
     } catch (err) {
         next(err);
     }
@@ -61,7 +60,6 @@ app.post("/addUser", (req, res) => {
                 response.sendStatus(200);
             }
         });
-        conn.end();
     } catch (err) {
         next(err);
     }
@@ -82,7 +80,6 @@ app.post("/favorite", (req, res) => {
                 response.sendStatus(200);
             }
         });
-        conn.end();
     } catch (err) {
         next(err);
     }
@@ -103,7 +100,6 @@ app.post("/unfavorite", (req, res) => {
                 response.sendStatus(200);
             }
         });
-        conn.end();
     } catch (err) {
         next(err);
     }
