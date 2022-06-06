@@ -13,11 +13,11 @@ app.use(express.json());
 
 function getConn() {
     return conn = mysql.createConnection({
-        host: process.env.DBHOST || 'feline-finder-do-user-11649465-0.b.db.ondigitalocean.com',
-        port: process.env.DBPORT || '25060',
-        user: process.env.DBUSER || 'felinefinder',
+        host: process.env.DBHOST || 'SG-FelineFinderDB-6244-mysql-master.servers.mongodirector.com',
+        port: process.env.DBPORT || '3306',
+        user: process.env.DBUSER || 'FelineFinder',
         database: process.env.DBNAME || 'defaultdb',
-        password: process.env.DBPASSWORD || 'AVNS_lc_DS148AEozf_t'
+        password: process.env.DBPASSWORD || 'lhp2m@9VM1hVn2ZM'
     });
 }
 
@@ -106,7 +106,7 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.sendStatus(200).send("HELLO");
+    res.send("HELLO");
 });
 
 let PORT = process.env.PORT || 3000;
