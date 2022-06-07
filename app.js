@@ -29,14 +29,14 @@ app.post("/isFavorite", (req, res) => {
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                response.status(500);
+                res.status(500);
             }
             else
             {
                 if (response.length > 0) {
-                    response.json({IsFavorite: response[0].c >= 1});
+                    res.json({IsFavorite: response[0].c >= 1});
                 } else {
-                    response.json({IsFavorite: false});
+                    res.json({IsFavorite: false});
                 }
             }
         });
@@ -53,11 +53,11 @@ app.post("/addUser", (req, res) => {
         let query = mysql.format(insertQuery,["Users","userid","username","password",req.body.userid, req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
             if(err) {
-                response.sendStatus(500);
+                res.sendStatus(500);
             }
             else
             {
-                response.sendStatus(200);
+                res.sendStatus(200);
             }
         });
     } catch (err) {
@@ -73,11 +73,11 @@ app.post("/favorite", (req, res) => {
         let query = mysql.format(insertQuery,["Favorites", "userid", "petid", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                response.sendStatus(500);
+                res.sendStatus(500);
             }
             else
             {
-                response.sendStatus(200);
+                res.sendStatus(200);
             }
         });
     } catch (err) {
@@ -93,11 +93,11 @@ app.post("/unfavorite", (req, res) => {
         let query = mysql.format(deleteQuery,["Favorites", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                response.sendStatus(500);
+                res.sendStatus(500);
             }
             else
             {
-                response.sendStatus(200);
+                res.sendStatus(200);
             }
         });
     } catch (err) {
