@@ -116,7 +116,7 @@ const server = app.listen(PORT, IP, () => {
 });
 
 app.use(function(err, req, res) {
-    res.sendStatus(err.status || 500);
+    res.send(err.status || 500);
     // if you using view enggine
     res.render('error', {
         message: err.message,
