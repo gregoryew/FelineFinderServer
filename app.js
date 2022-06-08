@@ -106,7 +106,7 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("HELLO");
+    res.send("HELLO2");
 });
 
 let PORT = process.env.PORT || 3000;
