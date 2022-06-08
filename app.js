@@ -106,7 +106,7 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("HELLO2");
+    res.send("HELLO3");
 });
 
 let PORT = process.env.PORT || 3000;
@@ -115,12 +115,7 @@ const server = app.listen(PORT, IP, () => {
     console.log('Server is running at port ' + PORT + ' and IP = ' + IP);
 });
 
-app.use(function(err, req, res) {
-    res.send(err.status || 500);
-    // if you using view enggine
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-    // or you can use res.send();        
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send(err);        
 });
