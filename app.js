@@ -17,13 +17,17 @@ function getConn() {
         port: process.env.DBPORT || '3306',
         user: process.env.DBUSER || 'FelineFinder',
         database: process.env.DBNAME || 'defaultdb',
-        password: process.env.DBPASSWORD || 'lhp2m@9VM1hVn2ZM'
+        password: process.env.DBPASSWORD || 'lhp2m@9VM1hVn2ZM',
+        ssl  : {
+            ca : fs.readFileSync(__dirname + '/ca-certificate.crt')
+          }
     });
 }
 
 app.post("/isFavorite", (req, res) => {
     try {
         const conn = getConn();
+        conn.connect();
 
         let selectQuery = 'SELECT COUNT(*) c FROM Favorites WHERE userID = ? AND petID = ?';
         let query = mysql.format(selectQuery,[req.body.userid, req.body.petid]);
@@ -40,6 +44,7 @@ app.post("/isFavorite", (req, res) => {
                 }
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
@@ -48,7 +53,8 @@ app.post("/isFavorite", (req, res) => {
 app.post("/addUser", (req, res) => {
     try {
         const conn = getConn();
-    
+        conn.connect();
+
         let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
         let query = mysql.format(insertQuery,["Users","userid","username","password",req.body.userid, req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
@@ -60,6 +66,7 @@ app.post("/addUser", (req, res) => {
                 res.send(200);
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
@@ -68,6 +75,7 @@ app.post("/addUser", (req, res) => {
 app.post("/favorite", (req, res) => {
     try {
         const conn = getConn();
+        conn.connect();
 
         let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
         let query = mysql.format(insertQuery,["Favorites", "userid", "petid", req.body.userid, req.body.petid]);
@@ -80,6 +88,7 @@ app.post("/favorite", (req, res) => {
                 res.send(200);
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
@@ -88,7 +97,8 @@ app.post("/favorite", (req, res) => {
 app.post("/unfavorite", (req, res) => {
     try {
         const conn = getConn();
-
+        conn.connect();
+        
         let deleteQuery = 'DELETE FROM ?? WHERE userid = ? AND petid = ?';
         let query = mysql.format(deleteQuery,["Favorites", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
@@ -100,13 +110,14 @@ app.post("/unfavorite", (req, res) => {
                 res.send(200);
             }
         });
+        conn.end();
     } catch (err) {
         next(err);
     }
 });
 
 app.get("/", (req, res) => {
-    res.send("HELLO3");
+    res.send("HELLO5");
 });
 
 let PORT = process.env.PORT || 3000;
