@@ -53,11 +53,11 @@ app.post("/addUser", (req, res) => {
         let query = mysql.format(insertQuery,["Users","userid","username","password",req.body.userid, req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
             if(err) {
-                res.sendStatus(500);
+                res.send(500);
             }
             else
             {
-                res.sendStatus(200);
+                res.send(200);
             }
         });
     } catch (err) {
@@ -73,11 +73,11 @@ app.post("/favorite", (req, res) => {
         let query = mysql.format(insertQuery,["Favorites", "userid", "petid", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                res.sendStatus(500);
+                res.send(500);
             }
             else
             {
-                res.sendStatus(200);
+                res.send(200);
             }
         });
     } catch (err) {
@@ -93,11 +93,11 @@ app.post("/unfavorite", (req, res) => {
         let query = mysql.format(deleteQuery,["Favorites", req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             if(err) {
-                res.sendStatus(500);
+                res.send(500);
             }
             else
             {
-                res.sendStatus(200);
+                res.send(200);
             }
         });
     } catch (err) {
@@ -114,8 +114,6 @@ let IP = process.env.IP || '127.0.0.1';
 const server = app.listen(PORT, IP, () => {
     console.log('Server is running at port ' + PORT + ' and IP = ' + IP);
 });
-
-server.timeout = 120000;
 
 app.use(function(err, req, res) {
     res.sendStatus(err.status || 500);
