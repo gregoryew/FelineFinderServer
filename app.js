@@ -17,10 +17,10 @@ function getConn() {
         port: process.env.DBPORT || '25060',
         user: process.env.DBUSER || 'FelineFinder',
         database: process.env.DBNAME || 'defaultdb',
-        password: process.env.DBPASSWORD || 'AVNS_2Enlzg3d2OszaHsM_5-',
-        ssl  : {
-            ca : fs.readFileSync(__dirname + '/ca-certificate.crt')
-        }
+        password: process.env.DBPASSWORD || 'AVNS_2Enlzg3d2OszaHsM_5-' //,
+        //ssl  : {
+        //    ca : fs.readFileSync(__dirname + '/ca-certificate.crt')
+        //}
     });
 }
 
@@ -117,7 +117,7 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("HELLO5");
+    res.send("HELLO6");
 });
 
 let PORT = process.env.PORT || 3000;
