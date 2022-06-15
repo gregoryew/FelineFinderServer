@@ -50,24 +50,32 @@ app.post("/isFavorite", (req, res) => {
     }
 });
 
-app.post("addUser", (req, res) => {
+app.post("/addUser", (req, res) => {
     try {
+        fs.appendFileSync(__dirname + '/log.txt', 'entered /addUser');
         const conn = getConn();
+        fs.appendFileSync(__dirname + '/log.txt', 'got conn');
         conn.connect();
+        fs.appendFileSync(__dirname + '/log.txt', 'connected to db');
 
         let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
         let query = mysql.format(insertQuery,["Users","username","password", req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
+            fs.appendFileSync(__dirname + '/log.txt', 'ran query ' + query);
             if(err) {
+                fs.appendFileSync(__dirname + '/log.txt', 'got error' + err.message);
                 res.send(500);
             }
             else
             {
+                fs.appendFileSync(__dirname + '/log.txt', 'got success');
                 res.send(200);
             }
         });
+        fs.appendFileSync(__dirname + '/log.txt', 'conn.end');
         conn.end();
     } catch (err) {
+        fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
         next(err);
     }
 });
