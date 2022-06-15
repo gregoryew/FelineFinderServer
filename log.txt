@@ -1,0 +1,10 @@
+entered /addUsergot connconnected to dbconn.endran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone4','test8')entered /addUser 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone4','test8')
+entered /addUser 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone6','test11')

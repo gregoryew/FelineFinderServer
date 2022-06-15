@@ -7,15 +7,16 @@ const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
 
+app.use(express.urlencoded()); //Parse URL-encoded bodies
 app.use(express.json());
 
 function getConn() {
     return conn = mysql.createConnection({
-        host: process.env.DBHOST,
-        port: process.env.DBPORT,
-        user: process.env.DBUSER,
-        database: process.env.DBNAME,
-        password: process.env.DBPASSWORD
+        host: process.env.DBHOST || "db-mysql-sfo3-22193-do-user-8209640-0.b.db.ondigitalocean.com",
+        port: process.env.DBPORT || "25060",
+        user: process.env.DBUSER || "FelineFinder",
+        database: process.env.DBNAME || "defaultdb",
+        password: process.env.DBPASSWORD || "AVNS_3Sfkz7FXwS6OCC0hSHC"
         //ssl  : {
         //    ca : fs.readFileSync(__dirname + '/ca-certificate.crt')
         //}
@@ -51,30 +52,30 @@ app.post("/isFavorite", (req, res) => {
 app.post("/addUser", (req, res) => {
     try {
         let dir = path.join(__dirname, '/log.txt');
-        fs.appendFileSync(dir, 'entered /addUser');
+        fs.appendFileSync(dir, 'entered /addUser \n');
         const conn = getConn();
-        fs.appendFileSync(dir, 'got conn');
+        fs.appendFileSync(dir, 'got conn \n');
         conn.connect();
-        fs.appendFileSync(dir, 'connected to db');
+        fs.appendFileSync(dir, 'connected to db \n');
 
-        let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
+        let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
         let query = mysql.format(insertQuery,["Users","username","password", req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
-            fs.appendFileSync(dir, 'ran query ' + query);
+            fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
-                fs.appendFileSync(dir, 'got error' + err.message);
-                res.send(500);
+                //fs.appendFileSync(dir, 'got error' + err.message + '\n');
+                res.sendStatus(500);
             }
             else
             {
-                fs.appendFileSync(dir, 'got success');
-                res.send(200);
+                //fs.appendFileSync(__dirname, 'got success \n');
+                res.sendStatus(200);
             }
         });
-        fs.appendFileSync(dir, 'conn.end');
+        fs.appendFileSync(__dirname + '/log.txt', 'conn.end \n');
         conn.end();
     } catch (err) {
-        fs.appendFileSync(dir, 'got error ' + err.message);
+        fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
         next(err);
     }
 });
@@ -125,10 +126,8 @@ app.post("/unfavorite", (req, res) => {
 
 app.get("/", (req, res) => {
     let dir = path.join(__dirname, '/log.txt');
-    fs.appendFileSync(dir, 'entered / HELLO7');
-    res.send("HELLO7 " + dir);
+    res.send("HELLO6 dir=|" + dir + "|" );
 });
-
 
 let PORT = process.env.PORT || 3000;
 let IP = process.env.IP || '127.0.0.1';
