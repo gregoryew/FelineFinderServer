@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const router = express.Router();
 const app = express();
 app.use("/", router);
@@ -8,8 +7,6 @@ const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 app.use(express.json());
 
 function getConn() {
@@ -127,7 +124,9 @@ app.post("/unfavorite", (req, res) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("HELLO6");
+    let dir = path.join(__dirname, '/log.txt');
+    fs.appendFileSync(dir, 'entered / HELLO7');
+    res.send("HELLO7");
 });
 
 let PORT = process.env.PORT || 3000;
