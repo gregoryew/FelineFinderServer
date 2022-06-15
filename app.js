@@ -13,11 +13,11 @@ app.use(express.json());
 
 function getConn() {
     return conn = mysql.createConnection({
-        host: process.env.DBHOST || 'db-mysql-sfo3-22193-do-user-8209640-0.b.db.ondigitalocean.com',
-        port: process.env.DBPORT || '25060',
-        user: process.env.DBUSER || 'FelineFinder',
-        database: process.env.DBNAME || 'defaultdb',
-        password: process.env.DBPASSWORD || 'AVNS_2Enlzg3d2OszaHsM_5-' //,
+        host: process.env.DBHOST,
+        port: process.env.DBPORT,
+        user: process.env.DBUSER,
+        database: process.env.DBNAME,
+        password: process.env.DBPASSWORD
         //ssl  : {
         //    ca : fs.readFileSync(__dirname + '/ca-certificate.crt')
         //}
@@ -50,7 +50,7 @@ app.post("/isFavorite", (req, res) => {
     }
 });
 
-app.post("/addUser", (req, res) => {
+app.post("addUser", (req, res) => {
     try {
         const conn = getConn();
         conn.connect();
