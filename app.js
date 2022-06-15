@@ -56,7 +56,7 @@ app.post("/addUser", (req, res) => {
         conn.connect();
 
         let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
-        let query = mysql.format(insertQuery,["Users","id","username","password",req.body.userid, req.body.username, req.body.password]);
+        let query = mysql.format(insertQuery,["Users","username","password", req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
             if(err) {
                 res.send(500);
