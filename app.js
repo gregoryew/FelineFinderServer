@@ -7,7 +7,7 @@ const mysql = require('mysql');
 const fs = require('fs');
 const path = require('path');
 
-app.use(express.urlencoded()); //Parse URL-encoded bodies
+//app.use(express.urlencoded()); //Parse URL-encoded bodies
 app.use(express.json());
 
 function getConn() {

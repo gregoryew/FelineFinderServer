@@ -8,3 +8,8 @@ got conn
 connected to db 
 conn.end 
 ran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone6','test11')
+entered /addUser 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone7','test12')
