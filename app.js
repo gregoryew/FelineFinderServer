@@ -13,14 +13,14 @@ app.use(express.json());
 
 function getConn() {
     return conn = mysql.createConnection({
-        host: process.env.DBHOST || 'SG-FelineFinderDB-6244-mysql-master.servers.mongodirector.com',
-        port: process.env.DBPORT || '3306',
+        host: process.env.DBHOST || 'db-mysql-sfo3-22193-do-user-8209640-0.b.db.ondigitalocean.com',
+        port: process.env.DBPORT || '25060',
         user: process.env.DBUSER || 'FelineFinder',
         database: process.env.DBNAME || 'defaultdb',
-        password: process.env.DBPASSWORD || 'lhp2m@9VM1hVn2ZM',
+        password: process.env.DBPASSWORD || 'AVNS_2Enlzg3d2OszaHsM_5-',
         ssl  : {
             ca : fs.readFileSync(__dirname + '/ca-certificate.crt')
-          }
+        }
     });
 }
 
@@ -56,7 +56,7 @@ app.post("/addUser", (req, res) => {
         conn.connect();
 
         let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
-        let query = mysql.format(insertQuery,["Users","userid","username","password",req.body.userid, req.body.username, req.body.password]);
+        let query = mysql.format(insertQuery,["Users","id","username","password",req.body.userid, req.body.username, req.body.password]);
         conn.query(query,(err, response) => {
             if(err) {
                 res.send(500);
