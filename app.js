@@ -6,6 +6,7 @@ app.use("/", router);
 
 const mysql = require('mysql');
 const fs = require('fs');
+const path = require('path');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
