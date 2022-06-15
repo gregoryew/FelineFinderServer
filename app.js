@@ -126,7 +126,7 @@ app.post("/unfavorite", (req, res) => {
 app.get("/", (req, res) => {
     let dir = path.join(__dirname, '/log.txt');
     fs.appendFileSync(dir, 'entered / HELLO7');
-    res.send("HELLO7");
+    res.send("HELLO7 " + dir);
 });
 
 let PORT = process.env.PORT || 3000;
