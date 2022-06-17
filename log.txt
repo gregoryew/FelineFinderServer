@@ -13,3 +13,23 @@ got conn
 connected to db 
 conn.end 
 ran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone7','test12')
+entered /addUser 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Users` (`username`,`password`) VALUES ('someone7','test12')
+entered /favorite 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Favorites` (`userid`,`petid`) VALUES ('someone4','33')
+entered /favorite 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Favorites` (`userid`,`petid`) VALUES ('someone4','33')
+entered /favorite 
+got conn 
+connected to db 
+conn.end 
+ran query INSERT INTO `Favorites` (`userid`,`petid`) VALUES ('someone6','36')
