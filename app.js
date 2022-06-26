@@ -53,6 +53,38 @@ app.post("/isFavorite", (req, res) => {
     }
 });
 
+app.get("/getFavorites", (req, res) => {
+    try {
+        let dir = path.join(__dirname, '/log.txt');
+        fs.appendFileSync(dir, 'entered /getFavorites \n');
+        const conn = getConn();
+        fs.appendFileSync(dir, 'got conn \n');
+        conn.connect();
+        fs.appendFileSync(dir, 'connected to db \n');
+
+        let selectQuery = 'SELECT GROUP_CONCAT(DISTINCT PetID) FROM Favorites WHERE userID = ?';
+        let query = mysql.format(selectQuery,[req.body.userid]);
+        conn.query(query,(err, response) => {
+            fs.appendFileSync(dir, 'ran query ' + query + '\n');
+
+            if(err) {
+                res.statusStatus(500);
+            }
+            else
+            {
+                if (response.length > 0) {
+                    res.json({Favorites: response[0]});
+                } else {
+                    res.json({Favorites: []});
+                }
+            }
+        });
+        conn.end();
+    } catch (err) {
+        next(err);
+    }
+});
+
 app.post("/addUser", (req, res) => {
     try {
         let dir = path.join(__dirname, '/log.txt');
