@@ -63,7 +63,7 @@ app.get("/getFavorites", (req, res) => {
         fs.appendFileSync(dir, 'connected to db \n');
 
         let selectQuery = 'SELECT GROUP_CONCAT(DISTINCT PetID) FROM Favorites WHERE userID = ?';
-        let query = mysql.format(selectQuery,[req.body.userid]);
+        let query = mysql.format(selectQuery,[req.query.userid]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
 
