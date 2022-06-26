@@ -16,7 +16,8 @@ function getConn() {
         port: process.env.DBPORT || "25060",
         user: process.env.DBUSER || "FelineFinder",
         database: process.env.DBNAME || "defaultdb",
-        password: process.env.DBPASSWORD || "AVNS_3Sfkz7FXwS6OCC0hSHC"
+        password: process.env.DBPASSWORD || "AVNS_3Sfkz7FXwS6OCC0hSHC",
+        multipleStatements: true
     });
 }
 
@@ -61,8 +62,8 @@ app.post("/addUser", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let insertQuery = 'INSERT INTO ?? (??,??) VALUES (?,?)';
-        let query = mysql.format(insertQuery,["Users","username","password", req.body.username, req.body.password]);
+        let insertQuery = 'INSERT INTO ?? (??,??,??) VALUES (?,?,?)';
+        let query = mysql.format(insertQuery,["Users","username","password","userid", req.body.username, req.body.password, req.body.userid]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
@@ -92,27 +93,16 @@ app.post("/favorite", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let deleteQuery = 'DELETE FROM ?? WHERE userid = ? AND petid = ?';
-        let query = mysql.format(deleteQuery,["Favorites", req.body.userid, req.body.petid]);
+        let deleteQuery = 'DELETE FROM Favorites WHERE userid = ? AND petid = ?; INSERT INTO Favorites (userid, petid) VALUES (?,?)';
+        let query = mysql.format(deleteQuery,[req.body.userid, req.body.petid, req.body.userid, req.body.petid]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
-            if(err) {
-                res.sendStatus(500);
+            if (err) {
+                throw err;
             }
             else
             {
-                let insertQuery2 = 'INSERT INTO ?? (??,??) VALUES (?,?)';
-                let query2 = mysql.format(insertQuery,["Favorites", "userid", "petid", req.body.userid, req.body.petid]);
-                conn.query(query2,(err2, response) => {
-                    fs.appendFileSync(dir, 'ran query ' + query2 + '\n');
-                    if(err2) {
-                        res.sendStatus(500);
-                    }
-                    else
-                    {
-                        res.sendStatus(200);
-                    }
-                });
+                res.sendStatus(200);
             }
         });
         fs.appendFileSync(__dirname + '/log.txt', 'conn.end \n');
