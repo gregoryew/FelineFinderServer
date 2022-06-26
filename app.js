@@ -62,7 +62,7 @@ app.get("/getFavorites", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let selectQuery = 'SELECT GROUP_CONCAT(DISTINCT PetID) FROM Favorites WHERE userID = ?';
+        let selectQuery = 'SELECT GROUP_CONCAT(DISTINCT PetID) ids FROM Favorites WHERE userID = ?';
         let query = mysql.format(selectQuery,[req.query.userid]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
@@ -73,9 +73,9 @@ app.get("/getFavorites", (req, res) => {
             else
             {
                 if (response.length > 0) {
-                    res.json({Favorites: response[0]});
+                    res.json({Favorites: response[0].ids});
                 } else {
-                    res.json({Favorites: []});
+                    res.json({Favorites: 0});
                 }
             }
         });
