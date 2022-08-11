@@ -240,12 +240,12 @@ app.get("/getQuery", (req, res) => {
 
 function getDateTime() {
     var currentdate = new Date();
-    return "STR_TO_DATE('" + currentdate.getDate() + "-"
+    return currentdate.getDate() + "-"
                 + (currentdate.getMonth()+1)  + "-" 
                 + currentdate.getFullYear() + " "  
                 + currentdate.getHours() + ":" 
                 + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds() + "', '%m-%d-%Y %H:%i:%s')";
+                + currentdate.getSeconds());
 }
 
 app.post("/InsertQuery", (req, res) => {
@@ -257,7 +257,7 @@ app.post("/InsertQuery", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query) values (?, ?, ?, ?, ?)';
+        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query) values (?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?)';
         let query = mysql.format(deleteQuery,[req.body.userid, req.body.name, req.body.name, getDateTime(), req.body.userid, getDateTime(), req.body.query ]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
