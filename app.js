@@ -21,6 +21,16 @@ function getConn() {
     });
 }
 
+function getDateTime() {
+    var currentdate = new Date();
+    return currentdate.getDate() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getFullYear() + " "  
+                + currentdate.getHours() + ":" 
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+}
+
 app.post("/isFavorite", (req, res) => {
     try {
         let dir = path.join(__dirname, '/log.txt');
@@ -238,16 +248,6 @@ app.get("/getQuery", (req, res) => {
     }
 });
 
-function getDateTime() {
-    var currentdate = new Date();
-    return currentdate.getDate() + "-"
-                + (currentdate.getMonth()+1)  + "-" 
-                + currentdate.getFullYear() + " "  
-                + currentdate.getHours() + ":" 
-                + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds();
-}
-
 app.post("/InsertQuery", (req, res) => {
     try {
         let dir = path.join(__dirname, '/log.txt');
@@ -286,7 +286,7 @@ app.delete("/deleteQuery", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
         
-        let deleteQuery = 'DELETE FROM saved_query WHERE userid = ? AND name = ?';
+        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?';
         let query = mysql.format(deleteQuery,[req.body.userid, req.body.name]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
