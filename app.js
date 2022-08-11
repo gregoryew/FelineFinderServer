@@ -245,7 +245,7 @@ function getDateTime() {
                 + currentdate.getFullYear() + " "  
                 + currentdate.getHours() + ":" 
                 + currentdate.getMinutes() + ":" 
-                + currentdate.getSeconds());
+                + currentdate.getSeconds();
 }
 
 app.post("/InsertQuery", (req, res) => {
