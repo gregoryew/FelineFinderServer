@@ -174,6 +174,128 @@ app.post("/unfavorite", (req, res) => {
     }
 });
 
+app.get("/getQueries", (req, res) => {
+    try {
+        let dir = path.join(__dirname, '/log.txt');
+        fs.appendFileSync(dir, 'entered /getQueries \n');
+        const conn = getConn();
+        fs.appendFileSync(dir, 'got conn \n');
+        conn.connect();
+        fs.appendFileSync(dir, 'connected to db \n');
+
+        let selectQuery = 'SELECT GROUP_CONCAT(DISTINCT name) queries FROM saved_query WHERE created_by = ?';
+        let query = mysql.format(selectQuery,[req.query.userid]);
+        conn.query(query,(err, response) => {
+            fs.appendFileSync(dir, 'ran query ' + query + '\n');
+
+            if(err) {
+                res.statusStatus(500);
+            }
+            else
+            {
+                if (response.length > 0) {
+                    res.json({Queries: response[0].queries});
+                } else {
+                    res.json({Queries: ''});
+                }
+            }
+        });
+        conn.end();
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.get("/getQuery", (req, res) => {
+    try {
+        let dir = path.join(__dirname, '/log.txt');
+        fs.appendFileSync(dir, 'entered /getQueries \n');
+        const conn = getConn();
+        fs.appendFileSync(dir, 'got conn \n');
+        conn.connect();
+        fs.appendFileSync(dir, 'connected to db \n');
+
+        let selectQuery = 'SELECT query FROM saved_query WHERE name = ? AND created_by = ?';
+        let query = mysql.format(selectQuery,[req.query.name, req.query.userid]);
+        conn.query(query,(err, response) => {
+            fs.appendFileSync(dir, 'ran query ' + query + '\n');
+
+            if(err) {
+                res.statusStatus(500);
+            }
+            else
+            {
+                if (response.length > 0) {
+                    res.json({Query: response[0].query});
+                } else {
+                    res.json({Query: {}});
+                }
+            }
+        });
+        conn.end();
+    } catch (err) {
+        next(err);
+    }
+});
+
+app.post("/InsertQuery", (req, res) => {
+    try {
+        let dir = path.join(__dirname, '/log.txt');
+        fs.appendFileSync(dir, 'Insert Saved Query \n');
+        const conn = getConn();
+        fs.appendFileSync(dir, 'got conn \n');
+        conn.connect();
+        fs.appendFileSync(dir, 'connected to db \n');
+
+        let deleteQuery = 'DELETE FROM ?? WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query)';
+        let query = mysql.format(deleteQuery,["saved_query", req.body.userid, req.body.name, req.body.userid, req.body.name, now(), req.body.userid, now(), req.body.query ]);
+        conn.query(query,(err, response) => {
+            fs.appendFileSync(dir, 'ran query ' + query + '\n');
+            if(err) {
+                res.sendStatus(500);
+            }
+            else
+            {
+                res.sendStatus(200);
+            }
+        });
+        fs.appendFileSync(__dirname + '/log.txt', 'conn.end \n');
+        conn.end();
+    } catch (err) {
+        fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
+        next(err);
+    }
+});
+
+app.delete("/deleteQuery", (req, res) => {
+    try {
+        let dir = path.join(__dirname, '/log.txt');
+        fs.appendFileSync(dir, 'entered /favorite \n');
+        const conn = getConn();
+        fs.appendFileSync(dir, 'got conn \n');
+        conn.connect();
+        fs.appendFileSync(dir, 'connected to db \n');
+        
+        let deleteQuery = 'DELETE FROM saved_query WHERE userid = ? AND name = ?';
+        let query = mysql.format(deleteQuery,[req.body.userid, req.body.name]);
+        conn.query(query,(err, response) => {
+            fs.appendFileSync(dir, 'ran query ' + query + '\n');
+            if(err) {
+                res.sendStatus(500);
+            }
+            else
+            {
+                res.sendStatus(200);
+            }
+        });
+        fs.appendFileSync(__dirname + '/log.txt', 'conn.end \n');
+        conn.end();
+    } catch (err) {
+        fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
+        next(err);
+    }
+});
+
 app.get("/", (req, res) => {
     let dir = path.join(__dirname, '/log.txt');
     res.send("HELLO8 dir=|" + dir + "|" );
