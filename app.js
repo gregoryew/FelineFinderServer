@@ -298,7 +298,7 @@ app.delete("/deleteQuery", (req, res) => {
 
 app.get("/", (req, res) => {
     let dir = path.join(__dirname, '/log.txt');
-    res.send("HELLO8 dir=|" + dir + "|" );
+    res.send("HELLO9 dir=|" + dir + "|" );
 });
 
 let PORT = process.env.PORT || 3000;
