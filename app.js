@@ -248,7 +248,7 @@ app.post("/InsertQuery", (req, res) => {
         fs.appendFileSync(dir, 'connected to db \n');
 
         let deleteQuery = 'DELETE FROM ?? WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query)';
-        let query = mysql.format(deleteQuery,["saved_query", req.body.userid, req.body.name, req.body.userid, req.body.name, now(), req.body.userid, now(), req.body.query ]);
+        let query = mysql.format(deleteQuery,["saved_query", req.body.userid, req.body.name, req.body.userid, req.body.name, new Date().toLocaleString(), new Date().toLocaleString(), req.body.query ]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
