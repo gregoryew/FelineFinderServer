@@ -280,7 +280,7 @@ app.post("/insertQuery", (req, res) => {
 app.delete("/deleteQuery", (req, res) => {
     try {
         let dir = path.join(__dirname, '/log.txt');
-        fs.appendFileSync(dir, 'entered /favorite \n');
+        fs.appendFileSync(dir, 'entered /deleteQuery \n');
         const conn = getConn();
         fs.appendFileSync(dir, 'got conn \n');
         conn.connect();
