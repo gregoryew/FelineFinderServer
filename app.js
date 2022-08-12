@@ -287,7 +287,7 @@ app.delete("/deleteQuery", (req, res) => {
         fs.appendFileSync(dir, 'connected to db \n');
         
         let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?';
-        let query = mysql.format(deleteQuery,[req.body.userid, req.body.name]);
+        let query = mysql.format(deleteQuery,[req.query.userid, req.query.name]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
