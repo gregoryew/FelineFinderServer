@@ -250,7 +250,7 @@ app.get("/getQuery", (req, res) => {
 
 app.post("/insertQuery", (req, res) => {
     try {
-        let dir = path.join(__dirname, '/log.txt');
+        let dir = path.join(__dirname, '/log55.txt');
         fs.appendFileSync(dir, 'Insert Saved Query \n');
         const conn = getConn();
         fs.appendFileSync(dir, 'got conn \n');
