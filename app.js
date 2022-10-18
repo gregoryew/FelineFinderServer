@@ -250,19 +250,19 @@ app.get("/getQuery", (req, res) => {
 
 app.post("/insertQuery", (req, res) => {
     try {
-        let dir = path.join(__dirname, '/log55.txt');
+        let dir = path.join(__dirname, '/log66.txt');
         fs.appendFileSync(dir, 'Insert Saved Query \n');
         const conn = getConn();
         fs.appendFileSync(dir, 'got conn \n');
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query) values (?, STR_TO_DATE(?, \'%m-%d-%Y %H:%I:%S\'), ?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?)';
+        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query) values (?, STR_TO_DATE(?, \'%m-%d-%Y %H:%I:%S\'), ?, STR_TO_DATE(?, \'%m-%d-%Y %H:%I:%S\'), ?)';
         let query = mysql.format(deleteQuery,[req.body.userid, req.body.name, req.body.name, getDateTime(), req.body.userid, getDateTime(), JSON.stringify(req.body.query)]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
-                fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
+                fs.appendFileSync(__dirname + '/log66.txt', 'got error ' + err.message);
                 res.sendStatus(500);
             }
             else
@@ -270,10 +270,10 @@ app.post("/insertQuery", (req, res) => {
                 res.sendStatus(200);
             }
         });
-        fs.appendFileSync(__dirname + '/log.txt', 'conn.end \n');
+        fs.appendFileSync(__dirname + '/log66.txt', 'conn.end \n');
         conn.end();
     } catch (err) {
-        fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
+        fs.appendFileSync(__dirname + '/log66.txt', 'got error ' + err.message);
         next(err);
     }
 });
