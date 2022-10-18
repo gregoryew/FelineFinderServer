@@ -262,6 +262,7 @@ app.post("/insertQuery", (req, res) => {
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
+                fs.appendFileSync(__dirname + '/log.txt', 'got error ' + err.message);
                 res.sendStatus(500);
             }
             else
