@@ -255,6 +255,7 @@ app.post("/insertQuery", (req, res) => {
         const conn = getConn();
         fs.appendFileSync(dir, 'got conn \n');
         conn.connect();
+
         fs.appendFileSync(dir, 'connected to db \n');
 
         let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query, sort, distance, updated_since) values (?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?, ?, ?, ?)';
