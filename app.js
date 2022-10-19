@@ -225,7 +225,7 @@ app.get("/getQuery", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let selectQuery = 'SELECT query FROM saved_query WHERE name = ? AND created_by = ?';
+        let selectQuery = 'SELECT query, sort, distance FROM saved_query WHERE name = ? AND created_by = ?';
         let query = mysql.format(selectQuery,[req.query.name, req.query.userid]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
@@ -236,9 +236,9 @@ app.get("/getQuery", (req, res) => {
             else
             {
                 if (response.length > 0) {
-                    res.json({Query: response[0].query});
+                    res.json({Query: response[0].query, sort: response[0].sort, distance: response[0].distance});
                 } else {
-                    res.json({Query: {}});
+                    res.json({Query: {}, sort: 0, distance: 1000});
                 }
             }
         });
@@ -257,8 +257,8 @@ app.post("/insertQuery", (req, res) => {
         conn.connect();
         fs.appendFileSync(dir, 'connected to db \n');
 
-        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query) values (?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?)';
-        let query = mysql.format(deleteQuery,[req.body.userid, req.body.name, req.body.name, getDateTime(), req.body.userid, getDateTime(), JSON.stringify(req.body.query)]);
+        let deleteQuery = 'DELETE FROM saved_query WHERE created_by = ? AND name = ?; INSERT saved_query (name, created_date, created_by, updated_date, query, sort, distance) values (?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?, STR_TO_DATE(?, \'%m-%d-%Y %H:%i:%s\'), ?, ?, ?)';
+        let query = mysql.format(deleteQuery,[req.body.userid, req.body.name, req.body.name, getDateTime(), req.body.userid, getDateTime(), JSON.stringify(req.body.query), req.body.sort, req.body.distance]);
         conn.query(query,(err, response) => {
             fs.appendFileSync(dir, 'ran query ' + query + '\n');
             if(err) {
@@ -309,7 +309,7 @@ app.delete("/deleteQuery", (req, res) => {
 
 app.get("/", (req, res) => {
     let dir = path.join(__dirname, '/log.txt');
-    res.send("HELLO9 dir=|" + dir + "|" );
+    res.send("HELLO10 dir=|" + dir + "|" );
 });
 
 let PORT = process.env.PORT || 3000;
